@@ -1,0 +1,30 @@
+
+ – Fonction `parseShape`
+
+
+data Shape = Circle Double | Rectangle Double Double deriving (Show)
+
+-- Fonction de parsing sûre qui retourne Maybe Shape
+parseShape :: String -> Maybe Shape
+parseShape input =
+    case words input of
+        ("Circle":r:[]) -> case reads r of
+            [(radius, "")] -> Just (Circle radius)
+            _              -> Nothing
+        ("Rectangle":w:h:[]) -> case (reads w, reads h) of
+            ([(width, "")], [(height, "")]) -> Just (Rectangle width height)
+            _                               -> Nothing
+        _ -> Nothing
+
+-- Exemple main pour tester
+main :: IO ()
+main = do
+    print $ parseShape "Circle 3.14"         -- Just (Circle 3.14)
+    print $ parseShape "Rectangle 2.0 5.0"   -- Just (Rectangle 2.0 5.0)
+    print $ parseShape "Rectangle 2.0 foo"   -- Nothing
+    print $ parseShape "Triangle 3 4 5"      -- Nothing
+
+
+
+
+
