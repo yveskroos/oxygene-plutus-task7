@@ -1,0 +1,43 @@
+HC7T1 et HC7T2, avec le type Color, les instances Eq et Ord, et une fonction main pour tester :
+
+
+– Color, Eq, Ord, mai
+
+
+-- Définition du type Color
+data Color = Red | Green | Blue deriving (Show)
+
+-- Implémentation de la classe Eq pour Color
+instance Eq Color where
+    Red   == Red   = True
+    Green == Green = True
+    Blue  == Blue  = True
+    _     == _     = False
+
+-- Implémentation de la classe Ord pour Color (Red < Green < Blue)
+instance Ord Color where
+    compare c1 c2 = compare (colorRank c1) (colorRank c2)
+      where
+        colorRank :: Color -> Int
+        colorRank Red   = 0
+        colorRank Green = 1
+        colorRank Blue  = 2
+
+-- Fonction main pour tester
+main :: IO ()
+main = do
+    print (Red == Red)        -- True
+    print (Red == Green)      -- False
+    print (Green < Blue)      -- True
+    print (Red < Blue)        -- True
+    print (compare Green Red) -- GT
+    print (maximum [Red, Green, Blue]) -- Blue
+
+  Exécution
+
+1. Sauvegarde ce code dans un fichier `Main.hs`.
+2. Puis exécute avec :
+
+
+ghc Main.hs -o colors && ./colors
+
