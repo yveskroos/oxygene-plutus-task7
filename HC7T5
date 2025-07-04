@@ -1,0 +1,35 @@
+
+– Fonction `squareArea`
+
+
+-- Fonction qui calcule l'aire d'un carré
+squareArea :: Num a => a -> a
+squareArea side = side * side
+
+-- Fonction main pour tester
+main :: IO ()
+main = do
+    print (squareArea 5)     -- 25 (Int)
+    print (squareArea 3.5)   -- 12.25 (Double)
+
+
+Explication
+
+* Le type `Num a => a -> a` signifie que `squareArea` accepte **n’importe quel type numérique** (`Int`, `Float`, `Double`, etc.).
+* On utilise simplement `side * side` pour calculer l’aire.
+
+
+ – `circleCircumference` compatible `Integral` et `Floating`
+
+-- Fonction qui calcule la circonférence d’un cercle
+circleCircumference :: (Real a, Floating b) => a -> b
+circleCircumference r = 2 * pi * realToFrac r
+
+-- Fonction main pour tester
+main :: IO ()
+main = do
+    print (circleCircumference (5 :: Int))      
+    print (circleCircumference (3.5 :: Double)) 
+    print (circleCircumference (7 :: Integer)) 
+
+
