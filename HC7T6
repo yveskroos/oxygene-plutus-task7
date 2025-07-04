@@ -1,0 +1,18 @@
+
+ – `nextColor` avec cycle Red → Green → Blue → Red
+
+-- Définition du type Color
+data Color = Red | Green | Blue deriving (Show, Eq)
+
+-- Fonction qui retourne la couleur suivante (avec wrap-around)
+nextColor :: Color -> Color
+nextColor Red   = Green
+nextColor Green = Blue
+nextColor Blue  = Red
+
+-- Fonction main pour tester
+main :: IO ()
+main = do
+    print (nextColor Red)    
+    print (nextColor Green)  
+    print (nextColor Blue)   
