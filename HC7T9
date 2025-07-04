@@ -1,0 +1,27 @@
+ – Type class `Describable` et instances
+
+```haskell
+-- Définition du type Shape pour l'exemple
+data Shape = Circle Double | Rectangle Double Double deriving (Show)
+
+-- Définition de la classe Describable
+class Describable a where
+    describe :: a -> String
+
+-- Instance pour Bool
+instance Describable Bool where
+    describe True  = "This is True"
+    describe False = "This is False"
+
+-- Instance pour Shape
+instance Describable Shape where
+    describe (Circle r)      = "A circle with radius " ++ show r
+    describe (Rectangle w h) = "A rectangle with width " ++ show w ++ " and height " ++ show h
+
+-- Fonction main pour tester
+main :: IO ()
+main = do
+    print $ describe True
+    print $ describe False
+    print $ describe (Circle 3.5)
+    print $ describe (Rectangle 4 5)
