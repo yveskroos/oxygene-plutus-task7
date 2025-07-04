@@ -1,0 +1,30 @@
+ – `describeAndCompare` avec contraintes multiples
+
+```haskell
+-- Classe Describable (déjà définie)
+class Describable a where
+    describe :: a -> String
+
+-- Fonction qui compare et décrit le plus grand élément
+describeAndCompare :: (Describable a, Ord a) => a -> a -> String
+describeAndCompare x y
+    | x >= y    = describe x
+    | otherwise = describe y
+
+-- Exemple d’instances (Bool et Shape) pour test
+data Shape = Circle Double | Rectangle Double Double deriving (Show, Eq, Ord)
+
+instance Describable Bool where
+    describe True  = "This is True"
+    describe False = "This is False"
+
+instance Describable Shape where
+    describe (Circle r)      = "A circle with radius " ++ show r
+    describe (Rectangle w h) = "A rectangle with width " ++ show w ++ " and height " ++ show h
+
+-- Exemple main pour tester
+main :: IO ()
+main = do
+    print $ describeAndCompare True False
+    print $ describeAndCompare (Circle 5) (Circle 3)
+    print $ describeAndCompare (Rectangle 2 3) (Rectangle 4 1)
