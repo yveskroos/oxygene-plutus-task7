@@ -1,21 +1,23 @@
- – Définition de `Color` et instance de `Eq`
+module Main where
 
-```haskell
--- Définition du type Color
 data Color = Red | Green | Blue
+    deriving (Show)
 
--- Implémentation manuelle de la classe Eq
 instance Eq Color where
-    Red   == Red   = True
-    Green == Green = True
-    Blue  == Blue  = True
-    _     == _     = False
+    (==) Red Red = True
+    (==) Green Green = True
+    (==) Blue Blue = True
+    (==) _ _ = False
 
--- Fonction main pour tester
 main :: IO ()
 main = do
-    print (Red == Red)     -- True
-    print (Red == Green)   -- False
-    print (Blue == Blue)   -- True
-    print (Green == Blue)  -- False
-
+    putStrLn "Testing Color equality:"
+    
+    let testEquality c1 c2 = putStrLn $ show c1 ++ " == " ++ show c2 ++ " -> " ++ show (c1 == c2)
+    
+    testEquality Red Red
+    testEquality Green Green
+    testEquality Blue Blue
+    testEquality Red Green
+    testEquality Green Blue
+    testEquality Blue Red
