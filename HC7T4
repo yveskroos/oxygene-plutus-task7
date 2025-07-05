@@ -1,41 +1,41 @@
+module Main where
 
-"Circle Double" pour un cercle (rayon),
-Rectangle Double Double` pour un rectangle (largeur, hauteur),
-  et implémenter manuellement les instances "Show" et "Read" pour afficher et lire ce type sous forme lisible.
+data Shape = Circle Double          -- Radius
+           | Rectangle Double Double -- Width and Height
+           deriving (Eq)
 
----
-
- – Type "Shape" avec instances "Show" et "Read"
-
-
--- Définition du type Shape
-data Shape = Circle Double | Rectangle Double Double
-
--- Instance de Show pour afficher Shape
 instance Show Shape where
     show (Circle r) = "Circle " ++ show r
     show (Rectangle w h) = "Rectangle " ++ show w ++ " " ++ show h
 
--- Instance de Read pour lire une Shape depuis une chaîne
 instance Read Shape where
-    readsPrec _ input = 
+    readsPrec _ input =
         case words input of
-            ("Circle":r:rest) -> [(Circle (read r), unwords rest)]
-            ("Rectangle":w:h:rest) -> [(Rectangle (read w) (read h), unwords rest)]
+            ["Circle", r] -> [(Circle (read r), "")]
+            ["Rectangle", w, h] -> [(Rectangle (read w) (read h), "")]
             _ -> []
 
--- Fonction main pour tester
 main :: IO ()
 main = do
-    let s1 = Circle 5.0
-    let s2 = Rectangle 4.0 6.0
-    print s1                        -- Affiche: Circle 5.0
-    print s2                        -- Affiche: Rectangle 4.0 6.0
-
-    let s3 = read "Circle 3.14" :: Shape
-    let s4 = read "Rectangle 2.0 3.0" :: Shape
-    print s3                        -- Affiche: Circle 3.14
-    print s4                        -- Affiche: Rectangle 2.0 3.0
-
-
- 
+    -- Test Show instance
+    let circle = Circle 5.0
+        rectangle = Rectangle 3.0 4.0
+    
+    putStrLn "Affichage des formes :"
+    print circle     -- Utilise Show implicitement
+    print rectangle  -- Utilise Show implicitement
+    
+    -- Test Read instance
+    putStrLn "\nLecture à partir de chaînes :"
+    let circleStr = "Circle 2.5"
+        rectangleStr = "Rectangle 10 20"
+        invalidStr = "Triangle 1 2 3"
+    
+    putStrLn $ "Lecture de '" ++ circleStr ++ "' : " ++ show (read circleStr :: Shape)
+    putStrLn $ "Lecture de '" ++ rectangleStr ++ "' : " ++ show (read rectangleStr :: Shape)
+    
+    -- Gestion d'une entrée invalide
+    putStrLn "\nTest avec une entrée invalide :"
+    case reads invalidStr of
+        [(shape, _)] -> putStrLn $ "Forme lue : " ++ show shape
+        [] -> putStrLn "Échec de la lecture - format non reconnu"
